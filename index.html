@@ -14,9 +14,9 @@
         <header>
             <h1>Graboratory</h1>
             <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=true))">New Code</button>
-            <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=false))">New Idea</button>
+            <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=false))">New Text</button>
         </header>
-        <div id="notearea"></div>
+        <div id="notearea"></div>   
     </body>
 
     <script>
@@ -28,7 +28,7 @@
 
             if (isCode) {
                 let title = document.createElement("span");
-                title.innerHTML = "Code"
+                title.innerHTML = "Gradia code"
                 cell.appendChild(title);
 
                 let button = document.createElement("button");
@@ -47,14 +47,19 @@
                 cell.appendChild(button);
             } else {
                 let title = document.createElement("span");
-                title.innerHTML = "Idea"
+                title.innerHTML = "Text"
                 cell.appendChild(title);
 
                 let button = document.createElement("button");
                 button.innerHTML = "Show";
                 button.onclick = function() {
                     let code = this.parentElement.childNodes[3].value;
+
+                    this.parentElement.childNodes[0].style.display = "none";
+                    this.parentElement.childNodes[1].style.display = "none";
+                    this.parentElement.childNodes[2].style.display = "none";
                     this.parentElement.childNodes[3].style.display = "none";
+                    
                     if (this.parentElement.lastChild.className == "result") {
                         this.parentElement.lastChild.style.display = "block";
                         this.parentElement.lastChild.innerHTML = marked.marked(code);
@@ -63,6 +68,9 @@
                         result.className = "result";
                         result.innerHTML = marked.marked(code);
                         result.onclick = function() {
+                            this.parentElement.childNodes[0].style.display = "inline";
+                            this.parentElement.childNodes[1].style.display = "inline";
+                            this.parentElement.childNodes[2].style.display = "inline";
                             this.parentElement.childNodes[3].style.display = "block";
                             this.parentElement.lastChild.style.display = "none";
                         };
@@ -110,9 +118,8 @@
 
         .cell {
             padding: 1vh;
-            border-radius: 5px;
             background-color: rgba(240, 240, 240, 0.2);
-            border: 1px solid lightgray;
+            border-bottom: 1px solid lightgray;
             margin-bottom: 2vh;
         }
         .cell textarea {
@@ -144,9 +151,7 @@
         }
         .cell .result {
             padding: 1vh;
-            border-radius: 5px;
-            border: 1px solid lightgray;
-            background-color: whitesmoke;
+            background-color: transparent
         }
     </style>
 </html>
