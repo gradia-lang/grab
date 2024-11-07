@@ -34,6 +34,7 @@
                 let button = document.createElement("button");
                 button.innerHTML = "Run";
                 button.onclick = function() {
+                    this.parentElement.childNodes[2].style.display = "none";
                     let code = this.parentElement.childNodes[3].value;
                     if (this.parentElement.lastChild.className == "result") {
                         this.parentElement.lastChild.innerHTML = gradia.eval(code);
@@ -70,7 +71,7 @@
                         result.onclick = function() {
                             this.parentElement.childNodes[0].style.display = "inline";
                             this.parentElement.childNodes[1].style.display = "inline";
-                            this.parentElement.childNodes[2].style.display = "inline";
+                            this.parentElement.childNodes[2].style.display = "none";
                             this.parentElement.childNodes[3].style.display = "block";
                             this.parentElement.lastChild.style.display = "none";
                         };
@@ -86,9 +87,13 @@
             deleteButton.onclick = function() {
                 this.parentElement.remove()
             };
+            deleteButton.style.display = "none";
             cell.append(deleteButton);
 
             let editor = document.createElement("textarea");
+            editor.onfocus = function() {
+                this.parentElement.childNodes[2].style.display = "inline";
+            }
             cell.appendChild(editor);
 
             return cell;
