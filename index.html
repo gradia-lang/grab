@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="https://gradia-lang.github.io/gradia.js" type="module"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+        <title>Grab</title>
+    </head>
+
+    <body>
+        <h1>Grab</h1>
+        <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=true))">New Code</button>
+        <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=false))">New Idea</button>
+        <div id="notearea"></div>
+    </body>
+
+    <script>
+        let gradia;
+
+        function createCell(isCode = false) {
+            let cell = document.createElement("div");
+            cell.className = "cell";
+
+            if (isCode) {
+                cell.style.backgroundColor = "rgba(210, 230, 241, 0.2)";
+
+                let button = document.createElement("button");
+                button.innerHTML = "Run";
+                button.onclick = function() {
+                    let code = this.parentElement.childNodes[2].value;
+                    if (this.parentElement.lastChild.className == "result") {
+                        this.parentElement.lastChild.innerHTML = gradia.eval(code);
+                    } else {
+                        let result = document.createElement("pre");
+                        result.className = "result";
+                        result.innerHTML = gradia.eval(code);
+                        this.parentElement.appendChild(result);
+                    }
+                };
+                cell.appendChild(button);
+            } else {
+                let button = document.createElement("button");
+                button.innerHTML = "Show";
+                button.onclick = function() {
+                    let code = this.parentElement.childNodes[2].value;
+                    this.parentElement.childNodes[2].style.display = "none";
+                    if (this.parentElement.lastChild.className == "result") {
+                        this.parentElement.lastChild.style.display = "block";
+                        this.parentElement.lastChild.innerHTML = marked.marked(code);
+                    } else {
+                        let result = document.createElement("div");
+                        result.className = "result";
+                        result.innerHTML = marked.marked(code);
+                        result.onclick = function() {
+                            this.parentElement.childNodes[2].style.display = "block";
+                            this.parentElement.lastChild.style.display = "none";
+                        };
+                        this.parentElement.appendChild(result);
+                    }
+                };
+                cell.appendChild(button);
+
+            }
+
+            let deleteButton = document.createElement("button");
+            deleteButton.innerHTML = "Delete";
+            deleteButton.onclick = function() {
+                this.parentElement.remove()
+            };
+            cell.append(deleteButton);
+
+            let editor = document.createElement("textarea");
+            cell.appendChild(editor);
+
+            return cell;
+        }
+
+        setTimeout(function() {
+            gradia = new Gradia();
+        }, 1000);
+    </script>
+
+    <style>
+        #notearea {
+            border-radius: 5px;
+            padding: 1vh;
+        }
+
+        .cell {
+            padding: 1vh;
+            border-radius: 5px;
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2vh;
+        }
+        .cell textarea {
+            height: 2lh;
+            display: block;
+            border-style: double;
+            border-radius: 5px;
+            width: 100%;
+            line-height: 150%;
+            box-sizing: border-box;
+            padding: 1vh;
+        }
+
+        .cell textarea:focus {
+           outline-style: solid;
+           outline-width: 1px;
+           outline-color:cornflowerblue;
+        }
+
+        .cell button {
+            width: 60px;
+            padding: 1vh;
+            border-radius: 5px;
+            border: 1px solid lightgray;
+            background-color: whitesmoke;
+
+            margin-bottom: 0.5vh;
+            margin-right: 0.5vh;
+        }
+        .cell .result {
+            padding: 1vh;
+            border-radius: 5px;
+            border: 1px solid lightgray;
+            background-color: whitesmoke;
+        }
+    </style>
+</html>
