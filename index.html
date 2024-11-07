@@ -27,10 +27,14 @@
             cell.className = "cell";
 
             if (isCode) {
+                let title = document.createElement("span");
+                title.innerHTML = "Code"
+                cell.appendChild(title);
+
                 let button = document.createElement("button");
                 button.innerHTML = "Run";
                 button.onclick = function() {
-                    let code = this.parentElement.childNodes[2].value;
+                    let code = this.parentElement.childNodes[3].value;
                     if (this.parentElement.lastChild.className == "result") {
                         this.parentElement.lastChild.innerHTML = gradia.eval(code);
                     } else {
@@ -42,11 +46,15 @@
                 };
                 cell.appendChild(button);
             } else {
+                let title = document.createElement("span");
+                title.innerHTML = "Idea"
+                cell.appendChild(title);
+
                 let button = document.createElement("button");
                 button.innerHTML = "Show";
                 button.onclick = function() {
-                    let code = this.parentElement.childNodes[2].value;
-                    this.parentElement.childNodes[2].style.display = "none";
+                    let code = this.parentElement.childNodes[3].value;
+                    this.parentElement.childNodes[3].style.display = "none";
                     if (this.parentElement.lastChild.className == "result") {
                         this.parentElement.lastChild.style.display = "block";
                         this.parentElement.lastChild.innerHTML = marked.marked(code);
@@ -55,7 +63,7 @@
                         result.className = "result";
                         result.innerHTML = marked.marked(code);
                         result.onclick = function() {
-                            this.parentElement.childNodes[2].style.display = "block";
+                            this.parentElement.childNodes[3].style.display = "block";
                             this.parentElement.lastChild.style.display = "none";
                         };
                         this.parentElement.appendChild(result);
@@ -84,6 +92,10 @@
     </script>
 
     <style>
+        span {
+            padding: 1vh;
+        }
+
         header {
             padding: 1vh;
             background-color: whitesmoke;
