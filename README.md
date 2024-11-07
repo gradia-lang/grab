@@ -1,2 +1,3 @@
 # Graboratory
-![image](https://github.com/user-attachments/assets/323ccc38-d2f3-4051-9208-b65eac58c164)
+
+<img width="1676" alt="image" src="https://github.com/user-attachments/assets/a55abece-1b50-40b8-9592-c0f343e80a39">
