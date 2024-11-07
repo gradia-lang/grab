@@ -12,7 +12,7 @@
 
     <body>
         <header>
-            <h1>Graboratory</h1>
+            <span>Graboratory</span>
             <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=true))">New Code</button>
             <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=false))">New Text</button>
         </header>
@@ -132,6 +132,7 @@
             height: 2lh;
             display: block;
             border-style: double;
+            border-width: 0.5px;
             border-radius: 5px;
             width: 100%;
             line-height: 150%;
