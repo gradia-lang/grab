@@ -27,8 +27,6 @@
             cell.className = "cell";
 
             if (isCode) {
-                cell.style.backgroundColor = "rgba(210, 230, 241, 0.2)";
-
                 let button = document.createElement("button");
                 button.innerHTML = "Run";
                 button.onclick = function() {
@@ -100,9 +98,8 @@
         .cell {
             padding: 1vh;
             border-radius: 5px;
-            background-color: white;
+            background-color: rgba(240, 240, 240, 0.2);
             border: 1px solid lightgray;
-            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
             margin-bottom: 2vh;
         }
         .cell textarea {
