@@ -113,12 +113,14 @@
                 result.push([node.className, node.value]);
             } 
             result = JSON.stringify(result);
+            result = btoa(String.fromCharCode(...new TextEncoder().encode(result)))
             history.pushState(null, '', `?note=${encodeURIComponent(result)}`);
         }
 
         function loadState() {
-            let query = (new URL(window.location.href)).searchParams.get("note");
-            let state = JSON.parse(decodeURIComponent(query));
+            let query = decodeURIComponent(new URL(window.location.href).searchParams.get("note"));
+            const decodedBytes = atob(query).split("").map(char => char.charCodeAt(0));
+            let state = JSON.parse(new TextDecoder().decode(new Uint8Array(decodedBytes)));
 
             for (let node of state) {
                 if (node[0] == "code") {
