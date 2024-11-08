@@ -113,14 +113,14 @@
                 result.push([node.className, node.value]);
             } 
             result = JSON.stringify(result);
-            history.pushState(null, '', `?note=${result}`);
+            history.pushState(null, '', `?note=${encodeURIComponent(result)}`);
             localStorage.setItem("note", result);
         }
 
         function loadState() {
             let query = (new URL(window.location.href)).searchParams.get("note");
             if (query != null) {
-                localStorage.setItem("note", query);
+                localStorage.setItem("note", decodeURIComponent(query));
             }
 
             let state = JSON.parse(localStorage.getItem("note"));
