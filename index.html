@@ -141,10 +141,10 @@
             xhr.send(); 
         }
 
+        document.addEventListener("DOMContentLoaded", loadStateFromWeb);
         setTimeout(function() {
-            loadStateFromWeb();
             gradia = new Gradia();
-        }, 500);
+        }, 1500);
     </script>
 
     <style>
