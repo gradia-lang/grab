@@ -15,6 +15,7 @@
             <span>Graboratory</span>
             <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=true))">New Code</button>
             <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=false))">New Text</button>
+            <button onclick="saveState()">Save on local storage</button>
         </header>
         <div id="notearea"></div>   
     </body>
@@ -94,10 +95,43 @@
             editor.onfocus = function() {
                 this.parentElement.childNodes[2].style.display = "inline";
             }
+            if (isCode) {
+                editor.className = "code";
+            } else {
+                editor.className = "text";
+            }
             cell.appendChild(editor);
 
             return cell;
         }
+
+        function saveState() {
+            let result = [];
+            for (let node of document.getElementById('notearea').children) {
+                node = node.childNodes[3]
+                console.log(node);
+                result.push([node.className, node.value]);
+            } 
+            localStorage.setItem("note", JSON.stringify(result));
+        }
+
+        function loadState() {
+            let state = JSON.parse(localStorage.getItem("note"));
+            for (let node of state) {
+                if (node[0] == "code") {
+                    let cell = createCell(isCode=true);
+                    cell.childNodes[3].value = node[1];
+                    document.getElementById('notearea').appendChild(cell);
+                } else {
+                    let cell = createCell(isCode=false);
+                    cell.childNodes[3].value = node[1];
+                    document.getElementById('notearea').appendChild(cell);
+                    cell.childNodes[1].click();
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadState);
 
         setTimeout(function() {
             gradia = new Gradia();
