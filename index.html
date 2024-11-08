@@ -6,6 +6,7 @@
 
         <script src="https://gradia-lang.github.io/gradia.js" type="module"></script>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
 
         <title>Graboratory</title>
     </head>
@@ -112,15 +113,13 @@
                 console.log(node);
                 result.push([node.className, node.value]);
             } 
-            result = JSON.stringify(result);
-            result = btoa(String.fromCharCode(...new TextEncoder().encode(result)))
+            result = LZString.compressToBase64(JSON.stringify(result));
             history.pushState(null, '', `?note=${encodeURIComponent(result)}`);
         }
 
         function loadState() {
             let query = decodeURIComponent(new URL(window.location.href).searchParams.get("note"));
-            const decodedBytes = atob(query).split("").map(char => char.charCodeAt(0));
-            let state = JSON.parse(new TextDecoder().decode(new Uint8Array(decodedBytes)));
+            let state = JSON.parse(LZString.decompressFromBase64(query));
 
             for (let node of state) {
                 if (node[0] == "code") {
@@ -136,11 +135,10 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", loadState);
-
         setTimeout(function() {
             gradia = new Gradia();
-        }, 1000);
+            loadState();
+        }, 500);
     </script>
 
     <style>
