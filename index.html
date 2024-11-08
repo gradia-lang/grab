@@ -119,7 +119,7 @@
 
         function loadState() {
             let query = (new URL(window.location.href)).searchParams.get("note");
-            if (query != null) {
+            if (query != undefined) {
                 localStorage.setItem("note", decodeURIComponent(query));
             }
 
