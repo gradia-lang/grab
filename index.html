@@ -61,7 +61,11 @@
                 cell.appendChild(button);
             } else {
                 let title = document.createElement("span");
-                title.innerHTML = "Text"
+                if (lang == "ja") {    
+                    title.innerHTML = "文章"
+                } else {
+                    title.innerHTML = "Text"
+                }
                 cell.appendChild(title);
 
                 let button = document.createElement("button");
