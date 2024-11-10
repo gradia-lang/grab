@@ -127,11 +127,15 @@
                     for (let node of state) {
                         if (node[0] == "code") {
                             let cell = createCell(isCode=true);
+                            let len = (node[1].match(/\n/g) || []).length;
                             cell.childNodes[3].value = node[1];
+                            cell.childNodes[3].style.height = `${len+2}lh`;
                             document.getElementById('notearea').appendChild(cell);
                         } else {
                             let cell = createCell(isCode=false);
+                            let len = (node[1].match(/\n/g) || []).length;
                             cell.childNodes[3].value = node[1];
+                            cell.childNodes[3].style.height = `${len+2}lh`;
                             document.getElementById('notearea').appendChild(cell);
                             cell.childNodes[1].click();
                         }
