@@ -96,6 +96,10 @@
             editor.onfocus = function() {
                 this.parentElement.childNodes[2].style.display = "inline";
             }
+            editor.addEventListener("input", function() {
+                let len = (this.value.match(/\n/g) || []).length;
+                this.style.height = `${len+2}lh`;
+            });
             if (isCode) {
                 editor.className = "code";
             } else {
