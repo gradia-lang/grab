@@ -14,15 +14,17 @@
     <body>
         <header>
             <span>Graboratory</span>
-            <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=true))">New Code</button>
-            <button onclick="document.getElementById('notearea').appendChild(createCell(isCode=false))">New Text</button>
-            <button onclick="saveState()">Copy Raw</button>
+            <button id="new-code" onclick="document.getElementById('notearea').appendChild(createCell(isCode=true))">New Code</button>
+            <button id="new-text" onclick="document.getElementById('notearea').appendChild(createCell(isCode=false))">New Text</button>
+            <button id="copy-raw" onclick="saveState()">Copy Raw</button>
         </header>
         <div id="notearea"></div>   
     </body>
 
     <script>
+        // Gradia instance
         let gradia;
+        let lang;
 
         function createCell(isCode = false) {
             let cell = document.createElement("div");
@@ -30,11 +32,20 @@
 
             if (isCode) {
                 let title = document.createElement("span");
-                title.innerHTML = "Gradia code"
+                if (lang == "ja") {    
+                    title.innerHTML = "Gradiaコード"
+                } else {
+                    title.innerHTML = "Gradia code"
+                }
                 cell.appendChild(title);
 
                 let button = document.createElement("button");
-                button.innerHTML = "Run";
+                if (lang == "ja") {    
+                    button.innerHTML = "実行"
+                } else {
+                    button.innerHTML = "Run";
+                }
+
                 button.onclick = function() {
                     this.parentElement.childNodes[2].style.display = "none";
                     let code = this.parentElement.childNodes[3].value;
@@ -54,7 +65,12 @@
                 cell.appendChild(title);
 
                 let button = document.createElement("button");
-                button.innerHTML = "Show";
+                if (lang == "ja") {    
+                    button.innerHTML = "表示";
+                } else {
+                    button.innerHTML = "Show";
+                }
+                
                 button.onclick = function() {
                     let code = this.parentElement.childNodes[3].value;
 
@@ -85,7 +101,11 @@
             }
 
             let deleteButton = document.createElement("button");
-            deleteButton.innerHTML = "Delete";
+            if (lang == "ja") {    
+                deleteButton.innerHTML = "削除";
+            } else {
+                deleteButton.innerHTML = "Delete";
+            }
             deleteButton.onclick = function() {
                 this.parentElement.remove()
             };
@@ -110,6 +130,14 @@
             return cell;
         }
 
+        function changeLangMenu() {
+            if (lang == "ja") {
+                document.getElementById("new-code").innerHTML = "新しいコード";
+                document.getElementById("new-text").innerHTML = "新しい文章";
+                document.getElementById("copy-raw").innerHTML = "生データをコピー"
+            }
+        };
+
         function saveState() {
             let result = [];
             for (let node of document.getElementById('notearea').children) {
@@ -124,6 +152,9 @@
         function loadStateFromWeb() {
             var xhr = new XMLHttpRequest();
             let url = decodeURIComponent(new URL(window.location.href).searchParams.get("link"));
+            lang = decodeURIComponent(new URL(window.location.href).searchParams.get("lang"));
+            changeLangMenu();
+
             xhr.open("GET", url, true); 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
